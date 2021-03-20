@@ -1,15 +1,10 @@
 package mainClient;
 
 import java.net.Socket;
-import java.time.LocalTime;
-import java.util.Arrays;
-import java.util.Scanner;
 
 import com.blogspot.debukkitsblog.net.Client;
 import com.blogspot.debukkitsblog.net.Datapackage;
 import com.blogspot.debukkitsblog.net.Executable;
-import map.Map;
-import champ.*;
 
 public class LeagueClient extends Client{
 
