@@ -22,7 +22,6 @@ public class Map {
             {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-
     };
     protected boolean isenterable(int x, int y) {
         try {
@@ -40,7 +39,7 @@ public class Map {
         for(int i = 0; i < champs.length; i++) {
             if(playerpos[i][0] == cx) {
                 if(playerpos[i][1] == cy) {
-                    return i+1;
+                    return i + 1;
                 }
             }
         }

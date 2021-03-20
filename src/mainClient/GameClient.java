@@ -5,12 +5,17 @@ import champ.Mundo;
 import com.blogspot.debukkitsblog.net.Datapackage;
 import map.Map;
 
+import javax.swing.*;
+import java.awt.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Scanner;
 
 public class GameClient {
+
+    public int myid;
+
+    public int[] myposition;
 
     public String username;
     public String hostname;
@@ -39,30 +44,67 @@ public class GameClient {
             client.stop();
             System.out.println(username);
             System.exit(1);
-        } else {
-            System.out.println(username);
         }
+        myid = Integer.parseInt(String.valueOf(user.get(2)))-1;
+        System.out.println("Dein User ist: "+myid);
 
         Ashe a1 = new Ashe();
         Mundo m1 = new Mundo();
-        Scanner input = new Scanner(System.in);
-
         Map cmap = new Map();
 
-        LocalDateTime lastrun = LocalDateTime.now();
-
-
-        while ((a1.alife) && (m1.alife)) {
-            //System.out.println(LocalDateTime.now());
-            if(Duration.between(lastrun, LocalDateTime.now()).toMillis() >= 1000) {
-                lastrun = LocalDateTime.now();
-                System.out.println(lastrun);
-                int[][] position;
-                position = client.positions;
-                String[] champs = {a1.getChampname(), m1.getChampname()};
-                cmap.printmap(position, champs);
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                LocalDateTime lastrun = LocalDateTime.now();
+                while ((a1.alife) && (m1.alife)) {
+                    //System.out.println(LocalDateTime.now());
+                    if(Duration.between(lastrun, LocalDateTime.now()).toMillis() >= 1000) {
+                        lastrun = LocalDateTime.now();
+                        System.out.println(lastrun);
+                        if(!client.gameinfo.equals("")){
+                            for(int x = 0; x < 19; x++){
+                                System.out.println("");
+                            }
+                            System.out.println(client.gameinfo);
+                        } else {
+                            int[][] position;
+                            position = client.positions;
+                            myposition = position[myid];
+                            String[] champs = {a1.getChampname(), m1.getChampname()};
+                            cmap.printmap(position, champs);
+                        }
+                    }
+                }
             }
+        });
+        thread.start();
+
+        Scanner scan = new Scanner(System.in);
+        while(a1.alife && m1.alife){
+            String input = scan.nextLine();
+            inputanalyse(client, input);
         }
-        input.close();
+        scan.close();
+    }
+
+    public void inputanalyse(LeagueClient client, String input) {
+        switch(input){
+            case "up":
+                myposition[0] -= 1;
+                client.updatePositions(myposition, myid);
+                break;
+            case "do":
+                myposition[0] += 1;
+                client.updatePositions(myposition, myid);
+                break;
+            case "le":
+                myposition[1] -= 1;
+                client.updatePositions(myposition, myid);
+                break;
+            case "ri":
+                myposition[1] += 1;
+                client.updatePositions(myposition, myid);
+                break;
+        }
     }
 }

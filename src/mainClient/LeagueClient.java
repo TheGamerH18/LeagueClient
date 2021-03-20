@@ -14,30 +14,40 @@ import champ.*;
 public class LeagueClient extends Client{
 
     public int[][] positions = new int[2][2];
+    public String gameinfo = "";
 
     LeagueClient(String host, String username) {
         super(host, 25598, 1000, false, username, "player");
 
-        registerMethod("NEW_MSG", new Executable() {
+        registerMethod("GAME_INFO", new Executable() {
             @Override
             public void run(Datapackage pack, Socket socket) {
-                System.out.println("[CLIENT] New Message: " + pack.get(1) + "::" + pack.get(2));
+                int packint = Integer.parseInt(String.valueOf(pack.get(1)));
+                if (packint == 0) {
+                    gameinfo = "Nicht genug Spieler";
+                }
+                else if(packint == 6)
+                        gameinfo = "";
+                else {
+                    gameinfo = "Runde beginnt in: "+packint;
+                }
             }
         });
 
         registerMethod("POSITIONS", new Executable() {
             @Override
             public void run(Datapackage pack, Socket socket) {
-                //System.out.println(pack.get(1).getClass().getName());
                 positions[0][0] = Integer.parseInt(String.valueOf(pack.get(1)));
-                //System.out.println(pack.get(2).getClass().getName());
                 positions[0][1] = Integer.parseInt(String.valueOf(pack.get(2)));
-                //System.out.println(pack.get(3).getClass().getName());
                 positions[1][0] = Integer.parseInt(String.valueOf(pack.get(3)));
-                //System.out.println(pack.get(4).getClass().getName());
                 positions[1][1] = Integer.parseInt(String.valueOf(pack.get(4)));
             }
         });
         start();
+    }
+
+    public void updatePositions(int[] positions, int id) {
+        System.out.println(id);
+        sendMessage(new Datapackage("NEW_POSITION", id, positions[0], positions[1]));
     }
 }
