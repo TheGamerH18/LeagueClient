@@ -25,11 +25,7 @@ public class Map {
     };
     protected boolean isenterable(int x, int y) {
         try {
-            if(map[x][y] == 0) {
-                return true;
-            } else {
-                return false;
-            }
+            return map[x][y] == 0;
         } catch (Exception e) {
             return false;
         }
