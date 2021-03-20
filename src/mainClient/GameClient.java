@@ -5,8 +5,6 @@ import champ.Mundo;
 import com.blogspot.debukkitsblog.net.Datapackage;
 import map.Map;
 
-import javax.swing.*;
-import java.awt.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Scanner;
