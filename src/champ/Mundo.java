@@ -4,6 +4,8 @@ public class Mundo extends Champion{
 
     public Mundo() {
         Champname = "Mundo";
+        maxhealth = 2000;
+        chealth = maxhealth;
     }
 
     public boolean alife = true;
