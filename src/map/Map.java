@@ -23,7 +23,7 @@ public class Map {
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
     };
-    protected boolean isenterable(int x, int y) {
+    public boolean isenterable(int x, int y) {
         try {
             return map[x][y] == 0;
         } catch (Exception e) {

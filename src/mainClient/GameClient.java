@@ -18,6 +18,9 @@ public class GameClient {
     public String username;
     public String hostname;
 
+    Map cmap = new Map();
+
+
     public GameClient(String hostname, String username) {
         this.username = username;
         this.hostname = hostname;
@@ -48,7 +51,6 @@ public class GameClient {
 
         Ashe a1 = new Ashe();
         Mundo m1 = new Mundo();
-        Map cmap = new Map();
 
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -87,21 +89,32 @@ public class GameClient {
 
     public void inputanalyse(LeagueClient client, String input) {
         switch(input){
-            case "up":
-                myposition[0] -= 1;
-                client.updatePositions(myposition, myid);
-                break;
-            case "do":
-                myposition[0] += 1;
-                client.updatePositions(myposition, myid);
-                break;
             case "le":
-                myposition[1] -= 1;
-                client.updatePositions(myposition, myid);
+                if(cmap.isenterable(myposition[0], myposition[1] - 1)){
+                    myposition[1] -= 1;
+                    client.updatePositions(myposition, myid);
+                }
                 break;
             case "ri":
-                myposition[1] += 1;
-                client.updatePositions(myposition, myid);
+                if(cmap.isenterable(myposition[0], myposition[1] + 1)){
+                    myposition[1] += 1;
+                    client.updatePositions(myposition, myid);
+                }
+                break;
+            case "up":
+                if(cmap.isenterable(myposition[0]-1, myposition[1])){
+                    myposition[0] -= 1;
+                    client.updatePositions(myposition, myid);
+                }
+                break;
+            case "do":
+                if(cmap.isenterable(myposition[0] + 1, myposition[1])){
+                    myposition[0] += 1;
+                    client.updatePositions(myposition, myid);
+                }
+                break;
+            case "ende":
+                System.exit(2);
                 break;
         }
     }
