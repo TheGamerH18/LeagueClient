@@ -14,7 +14,7 @@ public class LeagueClient extends Client{
     // Game Info von Server
     public String gameinfo = "";
 
-    // Spieler Leben
+    // Spieler Leben [0] = Current Health | [1] = Max Health
     public int[][] playerhealth = new int[2][2];
 
     LeagueClient(String host, String username) {
@@ -57,8 +57,12 @@ public class LeagueClient extends Client{
         start();
     }
 
+    public void damage(int id, int targetid, int damageamount) {
+        sendMessage(new Datapackage("DAMAGE", id, targetid, damageamount));
+    }
+
     public void updatePositions(int[] positions, int id) {
-        System.out.println(id);
+        // System.out.println(id);
         sendMessage(new Datapackage("NEW_POSITION", id, positions[0], positions[1]));
     }
 }

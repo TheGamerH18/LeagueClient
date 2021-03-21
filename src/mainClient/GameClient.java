@@ -146,6 +146,13 @@ public class GameClient {
                     client.updatePositions(myposition, myid);
                 }
                 break;
+            case "q":
+                int[] damage = players[myid].q(client.positions, myid);
+                if(damage[1] != 0){
+                    //            OwnID|TargetID | Damageamount
+                    client.damage(myid, damage[0], damage[1]);
+                }
+                break;
             case "ende":
                 System.exit(2);
                 break;

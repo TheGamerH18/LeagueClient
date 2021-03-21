@@ -30,4 +30,6 @@ public abstract class Champion {
             }
         }
     }
+
+    public abstract int[] q(int[][] positions, int ownid);
 }
