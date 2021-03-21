@@ -1,6 +1,7 @@
 package mainClient;
 
 import champ.Ashe;
+import champ.Champion;
 import champ.Mundo;
 import com.blogspot.debukkitsblog.net.Datapackage;
 import map.Map;
@@ -21,8 +22,13 @@ public class GameClient {
     public String username;
     public String hostname;
 
+    // Player Array
+    Champion[] players = new Champion[2];
 
+    // Players alife?
+    boolean alife = true;
 
+    // Map Instanz
     Map cmap = new Map();
 
     public GameClient(String hostname, String username) {
@@ -53,14 +59,14 @@ public class GameClient {
         myid = Integer.parseInt(String.valueOf(user.get(2)))-1;
         System.out.println("Dein User ist: "+myid);
 
-        Ashe p1 = new Ashe();
-        Mundo p2 = new Mundo();
+        players[0] = new Ashe();
+        players[1] = new Mundo();
 
-        Thread thread = new Thread(new Runnable() {
+        Thread anzeige = new Thread(new Runnable() {
             @Override
             public void run() {
                 LocalDateTime lastrun = LocalDateTime.now();
-                while ((p1.alife) && (p2.alife)) {
+                while (alife) {
                     //System.out.println(LocalDateTime.now());
                     if(Duration.between(lastrun, LocalDateTime.now()).toMillis() >= 1000) {
                         lastrun = LocalDateTime.now();
@@ -77,20 +83,40 @@ public class GameClient {
                             myposition = position[myid];
                             String[] champs = {"0","0"};
                             cmap.printmap(position, champs);
-                            p1.printhealth(client.playerhealth[0]);
-                            p2.printhealth(client.playerhealth[1]);
+                            players[0].printhealth(client.playerhealth[0]);
+                            players[1].printhealth(client.playerhealth[1]);
                         }
                     }
                 }
             }
         });
-        thread.start();
+        anzeige.start();
+
+        Thread checkalive = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (Champion player : players) {
+                    if (!player.alife) {
+                        alife = false;
+                        break;
+                    }
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        checkalive.start();
 
         Scanner scan = new Scanner(System.in);
-        while(p1.alife && p2.alife){
+        while(alife){
             String input = scan.nextLine();
             inputanalyse(client, input);
         }
+        checkalive.interrupt();
+
         scan.close();
     }
 
