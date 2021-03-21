@@ -8,8 +8,14 @@ import com.blogspot.debukkitsblog.net.Executable;
 
 public class LeagueClient extends Client{
 
+    // Positionen von Spielern
     public int[][] positions = new int[2][2];
+
+    // Game Info von Server
     public String gameinfo = "";
+
+    // Spieler Leben
+    public int[][] playerhealth = new int[2][2];
 
     LeagueClient(String host, String username) {
         super(host, 25598, 1000, false, username, "player");
@@ -26,6 +32,16 @@ public class LeagueClient extends Client{
                 else {
                     gameinfo = "Runde beginnt in: "+packint;
                 }
+            }
+        });
+
+        registerMethod("P_HEALTH", new Executable() {
+            @Override
+            public void run(Datapackage pack, Socket socket) {
+                playerhealth[0][0] = Integer.parseInt(String.valueOf(pack.get(1)));
+                playerhealth[0][1] = Integer.parseInt(String.valueOf(pack.get(2)));
+                playerhealth[1][0] = Integer.parseInt(String.valueOf(pack.get(3)));
+                playerhealth[1][1] = Integer.parseInt(String.valueOf(pack.get(4)));
             }
         });
 

@@ -11,15 +11,19 @@ import java.util.Scanner;
 
 public class GameClient {
 
+    // Aktuelle User ID
     public int myid;
 
+    // Aktuelle User Position
     public int[] myposition;
 
+    // Server Info
     public String username;
     public String hostname;
 
-    Map cmap = new Map();
 
+
+    Map cmap = new Map();
 
     public GameClient(String hostname, String username) {
         this.username = username;
@@ -49,29 +53,32 @@ public class GameClient {
         myid = Integer.parseInt(String.valueOf(user.get(2)))-1;
         System.out.println("Dein User ist: "+myid);
 
-        Ashe a1 = new Ashe();
-        Mundo m1 = new Mundo();
+        Ashe p1 = new Ashe();
+        Mundo p2 = new Mundo();
 
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 LocalDateTime lastrun = LocalDateTime.now();
-                while ((a1.alife) && (m1.alife)) {
+                while ((p1.alife) && (p2.alife)) {
                     //System.out.println(LocalDateTime.now());
                     if(Duration.between(lastrun, LocalDateTime.now()).toMillis() >= 1000) {
                         lastrun = LocalDateTime.now();
                         System.out.println(lastrun);
                         if(!client.gameinfo.equals("")){
-                            for(int x = 0; x < 19; x++){
-                                System.out.println("");
+                            for(int x = 0; x < 24; x++){
+                                System.out.println();
                             }
+                            System.out.println("Du bist Spieler Nr. " + myid);
                             System.out.println(client.gameinfo);
                         } else {
                             int[][] position;
                             position = client.positions;
                             myposition = position[myid];
-                            String[] champs = {a1.getChampname(), m1.getChampname()};
+                            String[] champs = {"0","0"};
                             cmap.printmap(position, champs);
+                            p1.printhealth(client.playerhealth[0]);
+                            p2.printhealth(client.playerhealth[1]);
                         }
                     }
                 }
@@ -80,7 +87,7 @@ public class GameClient {
         thread.start();
 
         Scanner scan = new Scanner(System.in);
-        while(a1.alife && m1.alife){
+        while(p1.alife && p2.alife){
             String input = scan.nextLine();
             inputanalyse(client, input);
         }
@@ -102,7 +109,7 @@ public class GameClient {
                 }
                 break;
             case "up":
-                if(cmap.isenterable(myposition[0]-1, myposition[1])){
+                if(cmap.isenterable(myposition[0] - 1, myposition[1])){
                     myposition[0] -= 1;
                     client.updatePositions(myposition, myid);
                 }
