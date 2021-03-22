@@ -85,6 +85,7 @@ public class GameClient {
                             cmap.printmap(position, champs);
                             players[0].printhealth(client.playerhealth[0]);
                             players[1].printhealth(client.playerhealth[1]);
+                            players[myid].printattacks();
                         }
                     }
                 }

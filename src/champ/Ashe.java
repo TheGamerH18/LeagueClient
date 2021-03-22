@@ -6,29 +6,10 @@ public class Ashe extends Champion {
         Champname = "Ashe";
         maxhealth = 1000;
         chealth = maxhealth;
-    }
 
-    @Override
-    public int[] q(int[][] positions, int ownid) {
-
-        // Range der Attacke
-        int range = 4;
-        // Damage der Attacke
-        int damage = 200;
-
-        int targetid;
-        if(ownid==0){
-            targetid = 1;
-        } else {
-            targetid = 0;
-        }
-        int distancex = Math.abs((positions[ownid][0] - positions[targetid][0]));
-        int distancey = Math.abs((positions[ownid][0] - positions[targetid][0]));
-
-        if(distancex <= range && distancey <= range){
-            return new int[]{targetid, damage};
-        } else {
-            return new int[]{targetid, 0};
-        }
+        // Vars for Q-Attack
+        q_range = 5;
+        q_damage = 200;
+        q_cooldown = 4000;
     }
 }
