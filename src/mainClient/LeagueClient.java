@@ -17,6 +17,9 @@ public class LeagueClient extends Client{
     // Spieler Leben [0] = Current Health | [1] = Max Health
     public int[][] playerhealth = new int[2][2];
 
+    // Winner var, saving last winner
+    public int winner = 0;
+
     LeagueClient(String host, String username) {
         super(host, 25598, 1000, false, username, "player");
 
@@ -54,6 +57,14 @@ public class LeagueClient extends Client{
                 positions[1][1] = Integer.parseInt(String.valueOf(pack.get(4)));
             }
         });
+
+        registerMethod("END", new Executable() {
+            @Override
+            public void run(Datapackage pack, Socket socket) {
+                winner = Integer.parseInt(String.valueOf(pack.get(1)));
+            }
+        });
+
         start();
     }
 

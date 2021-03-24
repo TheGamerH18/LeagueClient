@@ -75,6 +75,11 @@ public class GameClient {
                             for(int x = 0; x < 26; x++){
                                 System.out.println();
                             }
+                            if(client.winner != 0){
+                                System.out.println("Gewinner ist Spieler Nr. " + client.winner);
+                            } else {
+                                System.out.println();
+                            }
                             System.out.println("Du bist Spieler Nr. " + (myid + 1));
                             System.out.println(client.gameinfo);
                         } else {
