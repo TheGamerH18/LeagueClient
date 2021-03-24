@@ -72,7 +72,7 @@ public class GameClient {
                         lastrun = LocalDateTime.now();
                         System.out.println(lastrun);
                         if(!client.gameinfo.equals("")){
-                            for(int x = 0; x < 24; x++){
+                            for(int x = 0; x < 26; x++){
                                 System.out.println();
                             }
                             System.out.println("Du bist Spieler Nr. " + (myid + 1));
