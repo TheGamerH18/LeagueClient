@@ -21,10 +21,6 @@ public abstract class Champion {
     protected int q_damage;
     protected int q_cooldown;
 
-    public String getChampname() {
-        return Champname;
-    }
-
     public void printattacks(){
         checkrunnable();
         System.out.println("----- ----- ----- -----");
