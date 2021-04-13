@@ -60,9 +60,17 @@ public class GameClient {
         myid = Integer.parseInt(String.valueOf(user.get(2)))-1;
         System.out.println("Dein User ist: "+myid+1);
 
-        players[0] = new Ashe();
-        players[1] = new Mundo();
 
+        // Champion Selector
+        String selectedchamp;
+        Scanner champscan = new Scanner(System.in);
+        do{
+            System.out.println("Wähle deinen Champion");
+            selectedchamp = champscan.nextLine();
+        } while (!client.champselect(myid, selectedchamp));
+        champscan.close();
+
+        // Thread für Anzeige
         Thread anzeige = new Thread(new Runnable() {
             @Override
             public void run() {

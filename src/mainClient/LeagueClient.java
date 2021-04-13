@@ -2,6 +2,7 @@ package mainClient;
 
 import java.net.Socket;
 
+import champ.Champion;
 import com.blogspot.debukkitsblog.net.Client;
 import com.blogspot.debukkitsblog.net.Datapackage;
 import com.blogspot.debukkitsblog.net.Executable;
@@ -17,11 +18,29 @@ public class LeagueClient extends Client{
     // Spieler Leben [0] = Current Health | [1] = Max Health
     public int[][] playerhealth = new int[2][2];
 
+    // Player Champs
+    public Champion[] playerchamps = new Champion[2];
+    public boolean champsselected = false;
+
     // Winner var, saving last winner
     public int winner = 0;
 
     LeagueClient(String host, String username) {
         super(host, 25598, 1000, false, username, "player");
+
+        registerMethod("PLAYER_CHAMPS", new Executable() {
+            @Override
+            public void run(Datapackage pack, Socket socket) {
+                for(int i = 0; i < playerchamps.length; i ++){
+                    try {
+                        Class <?> clazz = Class.forName(String.valueOf(pack.get(i + 1)));
+                        playerchamps[i] = (Champion) clazz.newInstance();
+                    } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
 
         registerMethod("GAME_INFO", new Executable() {
             @Override
@@ -70,6 +89,12 @@ public class LeagueClient extends Client{
 
     public void damage(int id, int targetid, int damageamount) {
         sendMessage(new Datapackage("DAMAGE", id, targetid, damageamount));
+    }
+
+    public boolean champselect(int id, String Champ){
+        Datapackage response = sendMessage(new Datapackage("CHAMP_SELECT", id, Champ));
+        String responsecode = String.valueOf(response.get(1));
+        return responsecode.equals("Champ accepted");
     }
 
     public void updatePositions(int[] positions, int id) {
