@@ -58,7 +58,7 @@ public class GameClient {
             System.exit(1);
         }
         myid = Integer.parseInt(String.valueOf(user.get(2)))-1;
-        System.out.println("Dein User ist: "+myid);
+        System.out.println("Dein User ist: "+myid+1);
 
         players[0] = new Ashe();
         players[1] = new Mundo();
