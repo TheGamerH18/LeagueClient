@@ -49,6 +49,7 @@ public class GameClient {
             e.printStackTrace();
         }
 
+        // Server Login
         Datapackage user = client.sendMessage(new Datapackage("AUTH", username));
         username = (String) user.get(1);
         if (username.equals("Server Full")) {
@@ -98,6 +99,7 @@ public class GameClient {
         });
         anzeige.start();
 
+        // Thread to check if players are alife
         Thread checkalive = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -116,6 +118,7 @@ public class GameClient {
         });
         checkalive.start();
 
+        // Input loop for commands
         Scanner scan = new Scanner(System.in);
         while(alife){
             String input = scan.nextLine();
